@@ -105,16 +105,20 @@
 
             $('#appointment_table').on("click", ".js-delete", function () {
                 var button = $(this);
-                if (confirm("Are you sure you wan to delete this appointment?")) {
-                    $.ajax({
-                        url: "/api/Appointments/DeleteAppointment/" + $(this).attr("data-appointment-id"),
-                        method: "DELETE",
-                        success: function () {
-                            console.log("appointment deleted successfully");
-                            button.parents("tr").remove();
-                        }
-                    });
-                }
+
+                bootbox.confirm("Are you sure you want to delete this appointment?", function (result) {
+                    if (result)
+                        $.ajax({
+                            url: "/api/Appointments/DeleteAppointment/" + $(this).attr("data-appointment-id"),
+                            method: "DELETE",
+                            success: function () {
+                                console.log("appointment deleted successfully");
+                                button.parents("tr").remove();
+                            }
+                        });
+
+                });
+
             });
 
         });

@@ -136,16 +136,18 @@
 
             $('#patient_table').on("click", ".js-delete", function () {
                 var button = $(this);
-                if (confirm("Are you sure you wan to delete this patient?")) {
-                    $.ajax({                        
-                        url: "/api/Patients/DeletePatient/" + $(this).attr("data-patient-id"),
-                        type: "DELETE",
-                        success: function () {
-                            console.log("patient deleted successfully");
-                            button.parents("tr").remove();
-                        }
-                    });
-                }
+                bootbox.confirm("Are you sure you want to delete this patient?", function (result) {
+                    if(result)
+                        $.ajax({
+                            url: "/api/Patients/DeletePatient/" + $(this).attr("data-patient-id"),
+                            type: "DELETE",
+                            success: function () {
+                                console.log("patient deleted successfully");
+                                button.parents("tr").remove();
+                            }
+                        });
+                });
+                
             });
         });
     </script>
