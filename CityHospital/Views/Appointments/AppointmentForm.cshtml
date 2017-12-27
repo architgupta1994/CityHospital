@@ -1,0 +1,113 @@
+﻿@model CityHospital.ViewModels.AppointmentFromViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-header">@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Appointments"))
+{
+    
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "Please provide valid information for below fields", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Appointment.DoctorId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Appointment.DoctorId, new SelectList(Model.Doctors, "Id", "Name"), "Select Doctor", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Appointment.DoctorId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Appointment.Doctors.Department, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Appointment.Doctors.Department, new SelectList(Model.Appointment.Doctors.Department), new { htmlAttributes = new { @class = "form-control", @id = "department_id" } })
+                    @Html.ValidationMessageFor(model => model.Appointment.Doctors.Department, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Appointment.PatientId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Appointment.PatientId, new SelectList(Model.Patients, "Id", "FirstName"), "Select Patient", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Appointment.PatientId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Appointment.Patients.Disease, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Appointment.Patients.Disease, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Appointment.Patients.Disease, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Appointment.AppointmentDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Appointment.AppointmentDate, new { htmlAttributes = new { @class = "form-control", @id = "datepicker", @placeholder = "Select Date of Appointment" } })
+                @Html.ValidationMessageFor(model => model.Appointment.AppointmentDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Appointment.Patients.Disease, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Appointment.Patients.Disease, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Appointment.Patients.Disease, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+        @Html.HiddenFor(model => model.Appointment.Id)
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-info">Save</button>
+                @*@Html.ActionLink("Save", "Save", "Appointments", new { @class = "btn btn-info", @type="submit"})*@
+                @Html.ActionLink("Cancel", "Index", "Appointments", new { @class = "btn btn-info" })
+            </div>
+        </div>
+    </div>
+}
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/jqueryval");
+    @Scripts.Render("~/bundles/lib");
+    <script>
+
+        $(document).ready(function () {
+            $('#datepicker').datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+1",
+                duration: "fast",
+                showAnim: "drop",
+                showOptions: { direction: "down" }
+            });
+
+        });
+    </script>
+    @*<script>
+            function fillDept() {
+                var doctorId = $('#doctor_list').val();
+                $.ajax({
+                    url: 'Appointments/GetDepartment',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { Doctor: Id },
+                    success: function (department) {
+                        $("#department_id").html(""); // clear before appending new list
+                        $.each(department, function (i, dept) {
+                            $("#department_id").append(
+                                $('<option></option>').val(dept.Id).html(dept.CityName));
+                        });
+                    }
+                });
+
+            }
+        </script>*@
+}

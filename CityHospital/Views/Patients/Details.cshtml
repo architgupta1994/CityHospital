@@ -1,0 +1,90 @@
+﻿@model CityHospital.ViewModels.PatientFormViewModel
+
+@{
+    ViewBag.Title = "Patient Details";
+}
+
+<h2 class="page-header">Patient Details</h2>
+
+<div>   
+    
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.DateOfJoin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.DateOfJoin, "{0:yyyy-MM-DD}")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.Age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.Age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.GenderId)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Patients.GenderId)*@
+            @Html.DropDownListFor(model => model.Patients.GenderId, new SelectList(Model.Genders, "id", "Name"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.BloodGroupId)
+        </dt>
+
+        <dd>
+            @*@Html.DisplayFor(model => model.Patients.BloodGroupId)*@
+            @Html.DropDownListFor(model => model.Patients.BloodGroupId, new SelectList(Model.BloodGroups, "id", "Name"))
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.Disease)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.Disease)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Patients.CellPhone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Patients.CellPhone)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit","Patients", new { id = Model.Patients.Id }, new { @class="btn btn-info"}) 
+    @Html.ActionLink("Back to List", "Index", "Patients", "", new { @class="btn btn-info"})
+</p>

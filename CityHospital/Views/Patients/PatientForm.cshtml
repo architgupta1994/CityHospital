@@ -1,0 +1,127 @@
+﻿@model CityHospital.ViewModels.PatientFormViewModel
+
+@{
+    ViewBag.Title = Model.Title;
+}
+
+@Styles.Render("~/Content/css")
+
+
+<h2 class="page-header">@Model.Title</h2>
+
+@using (Html.BeginForm("Save", "Patients"))
+{
+    <div class="form-horizontal">
+
+    @Html.ValidationSummary(true, "Please provide valid information for below fields", new { @class = "text-danger" })    
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter First Name" } })
+                @Html.ValidationMessageFor(model => model.Patients.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Surname" } })
+                @Html.ValidationMessageFor(model => model.Patients.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.DateOfJoin, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.DateOfJoin, new { htmlAttributes = new { @class = "form-control", @id = "datepicker", @placeholder = "Select Date of Join" } })
+                @Html.ValidationMessageFor(model => model.Patients.DateOfJoin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.Age, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.Age, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Age" } })
+                @Html.ValidationMessageFor(model => model.Patients.Age, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Genders, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Patients.GenderId, new SelectList(Model.Genders, "Id", "Name"), "Select Gender", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Patients.GenderId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BloodGroups, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.Patients.BloodGroupId, new SelectList(Model.BloodGroups, "Id", "Name"), "Select BloodGroup", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Patients.BloodGroupId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.CellPhone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.CellPhone, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Phone" } })
+                @Html.ValidationMessageFor(model => model.Patients.CellPhone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.Address, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Address" } })
+                @Html.ValidationMessageFor(model => model.Patients.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Patients.Disease, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Patients.Disease, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter Description" } })
+                @Html.ValidationMessageFor(model => model.Patients.Disease, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-info">Save</button>
+                @*@Html.ActionLink("Save", "Save", "", new { @class = "btn btn-info", @type = "submit" })*@
+                @Html.ActionLink("Cancel", "Index", "", new { @class = "btn btn-info" })
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.Patients.Id)
+    </div>
+}
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval");
+    @Scripts.Render("~/bundles/lib");
+    <script>
+
+        $(document).ready(function () {
+            $('#datepicker').datepicker({
+                dateFormat: "yy-mm-dd",
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-60:+0",
+                duration: "fast",
+                showAnim: "drop",
+                showOptions: { direction: "down" }
+            });
+
+        });
+    </script>
+}
+
+
+
+
+
+

@@ -1,0 +1,123 @@
+﻿@model IEnumerable<CityHospital.Models.Appointment>
+
+@Styles.Render("~/Content/css")
+
+
+@{
+    ViewBag.Title = "Appointments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-header">Appointments @Html.ActionLink("Book Appointment", "Book", "Appointments", new { @class = "btn-right btn-info " })</h2>
+
+
+<table class="table table-striped table-bordered" id="appointment_table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.AppointmentDate)</th>
+            <th>
+                @Html.DisplayNameFor(model => model.DoctorId),
+                @Html.DisplayNameFor(model => model.Doctors.DepartmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PatientId),
+                @Html.DisplayNameFor(model => model.Patients.Disease)
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    @*<tfoot>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AppointmentDate)</th>
+                <th>@Html.DisplayNameFor(model => model.DoctorId)</th>
+                <th>@Html.DisplayNameFor(model => model.PatientId)</th>
+                <th>Actions</th>
+            </tr>
+        </tfoot>*@
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Doctors.Name),
+                @Html.DisplayFor(modelItem => item.Doctors.Department.Name)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patients.FirstName)
+                @Html.DisplayFor(modelItem => item.Patients.LastName),
+                @Html.DisplayFor(modelItem => item.Patients.Disease)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Appointments", new { id = item.Id }, new { @class = "btn btn-warning" })
+                @Html.ActionLink("Details", "Details", "Appointments", new { id = item.Id }, new { @class = "btn btn-warning" })
+                <button type="button" data-appointment-id=@item.Id class="btn btn-danger js-delete">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+@section scripts{
+
+    @Scripts.Render("~/bundles/lib")
+
+    <script>
+        $(document).ready(function () {
+
+            // DataTable
+            var table = $('#appointment_table').DataTable({
+
+                //enable pagination
+                "paging": true,
+                "sPaginationType": "full_numbers",
+                "bLengthChange": true,
+                "bInfo": true,
+
+                //disable the sort on Last Column
+                'aoColumnDefs': [{
+                    'bSortable': false,
+                    'aTargets': [-1] /* 1st one, start by the right */
+                }]
+            });
+
+            //$('#appointment_table tfoot th').each(function () {
+            //    var title = $(this).text();
+            //    $(this).html('<input type="text" placeholder=" ' + title + '" />');
+            //});
+            // Apply the search
+            //table.columns().every(function () {
+            //    var that = this;
+            //    $('input', this.footer()).on('keyup change', function () {
+            //        if (that.search() !== this.value) {
+            //            that
+            //                .search(this.value)
+            //                .draw();
+            //        }
+            //    });
+            //});
+            //$(".form-control form-control-sm").hide();
+
+            $('#appointment_table').on("click", ".js-delete", function () {
+                var button = $(this);
+                if (confirm("Are you sure you wan to delete this appointment?")) {
+                    $.ajax({
+                        url: "/api/Appointments/DeleteAppointment/" + $(this).attr("data-appointment-id"),
+                        method: "DELETE",
+                        success: function () {
+                            console.log("appointment deleted successfully");
+                            button.parents("tr").remove();
+                        }
+                    });
+                }
+            });
+
+        });
+
+    </script>
+}

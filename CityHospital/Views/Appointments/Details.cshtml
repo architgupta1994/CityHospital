@@ -1,0 +1,45 @@
+﻿@model CityHospital.ViewModels.AppointmentFromViewModel
+
+@{
+    ViewBag.Title = "Appointment Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-header">Appointment Details</h2>
+
+<div>
+    
+    <dl class="dl-horizontal dtr-details">
+        <dt>
+            @Html.DisplayNameFor(model => model.Appointment.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Appointment.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Appointment.AppointmentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Appointment.AppointmentDate, "{0:yyyy-MM-DD}")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Appointment.DoctorId)
+        </dt>
+
+        <dd>
+            @Html.DropDownListFor(model => model.Appointment.DoctorId, new SelectList(Model.Doctors, "id", "Name"))
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Appointment.PatientId)
+        </dt>
+        <dd>
+            @Html.DropDownListFor(model => model.Appointment.PatientId, new SelectList(Model.Patients, "id", "FirstName"))
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit","Appointments", new { id = Model.Appointment.Id }, new { @class="btn btn-info"})
+    @Html.ActionLink("Cancel", "Index", "Appointments", "", new { @class="btn btn-info"})
+</p>
